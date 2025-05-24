@@ -34,7 +34,7 @@
                         Eliminar
                     </button>
                 </form>
-                <a href="{{ route('admin.reporte.trimestral', $curso->id) }}" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+                <a href="{{ route('admin.reporte.estudiantes', $curso->id) }}" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
                     Reporte
                 </a>
             </div>
