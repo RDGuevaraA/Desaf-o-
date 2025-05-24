@@ -7,8 +7,12 @@ use App\Models\Estudiante;
 use App\Models\Tutor;
 use Illuminate\Http\Request;
 use Illuminate\Routing\ControllerMiddlewareOptions as Middleware;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+
 
 class AdminController extends Controller
+
 {
     #[Middleware('auth')]
     #[Middleware(\App\Http\Middleware\CheckRole::class.':admin')]
@@ -75,6 +79,131 @@ class AdminController extends Controller
         
         return view('admin.curso.edit', compact('curso', 'tutores', 'estudiantes', 'estudiantesActuales'));
     }
+
+
+
+
+
+
+
+
+    // PRUEBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+#[Middleware('auth')]
+#[Middleware(\App\Http\Middleware\CheckRole::class.':admin')]
+public function mostrarEstudiantesParaReporte($cursoId)
+{
+    $curso = Curso::with('estudiantes')->findOrFail($cursoId);
+    return view('admin.reporte.estudiantes', compact('curso'));
+}
+
+
+private function calcularSemaforo($leves, $graves, $muyGraves, $inasistencias)
+{
+    $totalFaltas = $inasistencias->where('tipo', 'I')->count();
+    $totalMuyGraves = $muyGraves->count();
+
+    if ($totalMuyGraves > 3 || $totalFaltas > 5) return 'rojo';
+    if ($totalMuyGraves > 1 || $totalFaltas > 3) return 'amarillo';
+    if ($graves->count() > 0 || $leves->count() > 2) return 'verde';
+    return 'azul';
+}
+
+#[Middleware('auth')]
+#[Middleware(\App\Http\Middleware\CheckRole::class.':admin')]
+public function generarReporteEstudiante($cursoId, $codigoEstudiante)
+{
+       $curso = Curso::with(['tutor'])->findOrFail($cursoId);
+
+    $estudiante = Estudiante::with(['asignacionesCodigos.codigo', 'asistencias'])
+        ->where('codigo_estudiante', $codigoEstudiante)
+        ->firstOrFail();
+
+    $trimestre = floor((date('n') - 2) / 3) + 1;
+
+    $fechaInicio = now()->startOfYear()->addMonths(1 + ($trimestre - 1) * 3);
+    $fechaFin = (clone $fechaInicio)->addMonths(3)->subDay();
+
+    // Aspectos
+    $aspectosPositivos = $estudiante->asignacionesCodigos
+        ->where('codigo.tipo', 'P')
+        ->whereBetween('fecha', [$fechaInicio, $fechaFin]);
+
+    $aspectosLeves = $estudiante->asignacionesCodigos
+        ->where('codigo.tipo', 'L')
+        ->whereBetween('fecha', [$fechaInicio, $fechaFin]);
+
+    $aspectosGraves = $estudiante->asignacionesCodigos
+        ->where('codigo.tipo', 'G')
+        ->whereBetween('fecha', [$fechaInicio, $fechaFin]);
+
+    $aspectosMuyGraves = $estudiante->asignacionesCodigos
+        ->where('codigo.tipo', 'MG')
+        ->whereBetween('fecha', [$fechaInicio, $fechaFin]);
+
+    // Inasistencias del trimestre
+    $inasistencias = $estudiante->asistencias
+        ->whereBetween('fecha', [$fechaInicio, $fechaFin]);
+
+    // Calcular semáforo
+    $semaforo = $this->calcularSemaforo($aspectosLeves, $aspectosGraves, $aspectosMuyGraves, $inasistencias);
+
+    // Preparar datos
+    $data = [
+        'curso' => $curso,
+        'estudiante' => $estudiante,
+        'trimestre' => $trimestre,
+        'fechaInicio' => $fechaInicio,
+        'fechaFin' => $fechaFin,
+        'aspectosPositivos' => $aspectosPositivos,
+        'aspectosLeves' => $aspectosLeves,
+        'aspectosGraves' => $aspectosGraves,
+        'aspectosMuyGraves' => $aspectosMuyGraves,
+        'inasistencias' => $inasistencias,
+        'semaforo' => $semaforo,
+    ];
+
+    $pdf = PDF::loadView('admin.reporte.estudiante', $data);
+    return $pdf->download('reporte_' . $estudiante->nombres . '_' . $estudiante->apellidos . '.pdf');
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     #[Middleware('auth')]
     #[Middleware(\App\Http\Middleware\CheckRole::class.':admin')]

@@ -6,10 +6,30 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\TutorController;
 use App\Http\Controllers\CodigoController;
 
+
+//ver curso
+//Route::get('/admin/cursos/{id}', [AdminController::class, 'showCurso'])->name('admin.curso.show');
+
+
+//Ruta para editar un curso
+//Route::middleware(['auth', 'check.role:admin'])->prefix('admin')->group(function () {
+  //  Route::get('/curso/{curso}/edit', [AdminController::class, 'editCurso'])->name('admin.curso.edit');
+    //Route::put('/curso/{curso}', [AdminController::class, 'updateCurso'])->name('admin.curso.update');
+//});
+
+
 // Rutas de autenticación
 Route::get('/', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('/', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+
+//reportes
+
+    Route::get('/curso/{curso}/reportes', [AdminController::class, 'mostrarEstudiantesParaReporte'])->name('admin.reporte.estudiantes');
+    Route::get('/curso/{curso}/reporte/{estudiante}', [AdminController::class, 'generarReporteEstudiante'])->name('admin.reporte.estudiante');
+    Route::get('/curso/{cursoId}/reporte', [AdminController::class, 'generarReporte'])->name('admin.reporte.trimestral');
+    Route::get('/admin/curso/{curso}/reporte', [AdminController::class, 'mostrarEstudiantesDelCurso'])->name('admin.reporte.trimestral');
 
 // Rutas de administrador
 Route::middleware(['auth', \App\Http\Middleware\CheckRole::class . ':admin'])->group(function () {
