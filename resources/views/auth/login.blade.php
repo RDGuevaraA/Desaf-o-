@@ -3,7 +3,7 @@
 @section('title', 'Iniciar Sesión')
 
 @section('content')
-<div class="max-w-md mx-auto bg-white rounded-lg shadow-md overflow-hidden p-6 mt-10">
+<div class="max-w-md mx-auto mt-25 bg-white rounded-lg shadow-md overflow-hidden p-6">
     <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">Iniciar Sesión</h2>
     
     @if ($errors->any())

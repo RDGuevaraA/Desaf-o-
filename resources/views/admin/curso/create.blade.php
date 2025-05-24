@@ -3,10 +3,13 @@
 @section('title', 'Crear Nuevo Curso')
 
 @section('content')
-<div class="bg-white rounded-lg shadow-md overflow-hidden p-6">
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Crear Nuevo Curso</h2>
-    
-    <form action="{{ route('admin.curso.create') }}" method="POST">
+<div class="bg-white rounded-lg shadow-md overflow-hidden w-[50%] mx-auto">
+    <div class="bg-gradient-to-r from-blue-300 to-yellow-200 text-gray-700 text-xl font-bold text-gray-800 w-[100%] p-4">
+        <h2>Crear Nuevo Curso</h2>
+    </div>
+
+    <form action="{{ route('admin.curso.create') }}" method="POST" class="p-6">
+        {{-- CSRF Token --}}
         @csrf
         <div class="mb-4">
             <label for="nombre_curso" class="block text-gray-700 text-sm font-bold mb-2">Nombre del Curso</label>
@@ -42,7 +45,7 @@
             <a href="{{ route('admin.home') }}" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded mr-2">
                 Cancelar
             </a>
-            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
+            <button type="submit" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded">
                 Crear Curso
             </button>
         </div>

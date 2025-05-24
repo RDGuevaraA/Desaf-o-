@@ -26,7 +26,7 @@
                     <td class="px-6 py-4 whitespace-nowrap">
                         <div class="flex items-center">
                             <div class="flex-shrink-0 h-10 w-10">
-                                <img class="h-10 w-10 rounded-lg" src="{{ $estudiante->fotografia ? asset('storage/'.$estudiante->fotografia) : asset('images/default-profile.png') }}" alt="">
+                                <img class="h-10 w-10 rounded-sm" src="{{ $estudiante->fotografia }}" alt="Foto de {{ $estudiante->nombres }}">
                             </div>
                             <div class="ml-4">
                                 <div class="text-md font-medium text-gray-900">{{ $estudiante->nombres }} {{ $estudiante->apellidos }}</div>
