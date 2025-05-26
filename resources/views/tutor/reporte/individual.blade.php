@@ -40,7 +40,7 @@
         <p><strong>Estudiante:</strong> {{ $estudiante->nombres }} {{ $estudiante->apellidos }}</p>
         <p><strong>Carnet:</strong> {{ $estudiante->codigo_estudiante }}</p>
     </div>
-
+    <p><strong>Semaforo:</strong></p>
     <div class="semaforo {{ $semaforo }}">
         @switch($semaforo)
             @case('azul') @break
@@ -50,7 +50,7 @@
         @endswitch
     </div>
 
-    <h3>Aspectos positivos</h3>
+    <h3>Códigos positivos</h3>
     <table>
         <thead>
             <tr>
@@ -75,7 +75,7 @@
         </tbody>
     </table>
 
-    <h3>Aspectos a mejorar</h3>
+    <h3>Códigos Negativos</h3>
     <table>
         <thead>
             <tr>
@@ -124,7 +124,7 @@
             @foreach($inasistencias as $index => $inasistencia)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $inasistencia->fecha->format('d/m/Y') }}</td>
+                <td>{{ \Carbon\Carbon::parse($inasistencia->fecha)->format('d/m/Y') }}</td>
                 <td>
                     @switch($inasistencia->tipo)
                         @case('A') Asistió @break

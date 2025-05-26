@@ -55,17 +55,19 @@ class TutorController extends Controller
             'estudiantes' => 'required|array',
             'estudiantes.*' => 'exists:estudiantes,codigo_estudiante'
         ]);
-        
+
         $hoy = now();
-        if (!$hoy->isSaturday() || !$hoy->between(
+        $tutor = auth()->user()->tutor;
+
+        // Verificar horario permitido (sábados 8-11am)
+        /*if (!$hoy->isSaturday() || !$hoy->between(
             $hoy->copy()->setTime(8, 0),
             $hoy->copy()->setTime(11, 0)
         )) {
             return back()->with('error', 'Solo puedes tomar asistencia los sábados entre 8:00am y 11:00am');
-        }
-        
-        $tutor = auth()->user()->tutor;
-        
+        }*/
+
+        // Registrar asistencias
         foreach ($request->estudiantes as $index => $codigoEstudiante) {
             Asistencia::updateOrCreate(
                 [
@@ -78,8 +80,8 @@ class TutorController extends Controller
                 ]
             );
         }
-        
-        return back()->with('success', 'Asistencia registrada exitosamente');
+
+        return back()->with('success', 'Asistencias registradas exitosamente');
     }
 
     #[Middleware('auth')]

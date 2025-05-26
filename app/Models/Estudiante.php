@@ -36,6 +36,14 @@ class Estudiante extends Model
         return $this->hasMany(Asistencia::class, 'codigo_estudiante');
     }
 
+    public function asistenciaHoy()
+    {
+        return $this->asistencias()
+        ->whereDate('fecha', now()->toDateString())
+        ->first()
+        ?->tipo ?? 'A'; // Default a "Asistió" si no hay registro
+    }
+
     public function asignacionesCodigos()
     {
         return $this->hasMany(AsignacionCodigo::class, 'codigo_estudiante');

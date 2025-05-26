@@ -11,10 +11,9 @@
 <body class="bg-gray-100">
     <header class="bg-white text-gray-600 shadow-md">
         <div class="container mx-auto h-[125px] px-5 flex justify-between items-center">
-            <div class="flex items-center space-x-2 h-[100%]">
+            <a class="flex items-center space-x-2 h-[100%]" href="{{ auth()->check() ? (auth()->user()->isAdmin() ? route('admin.home') : route('tutor.home')) : url('/') }}">
                 <img src="{{ asset('storage/englishAcademy.png') }}" alt="Logo" class="h-[90%]">
-                <!--<h1 class="text-xl font-bold">Academia Management</h1>-->
-            </div>
+            </a>
             <div class="flex items-center space-x-4">
                 @auth
                 <form action="{{ route('logout') }}" method="POST">

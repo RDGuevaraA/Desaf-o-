@@ -46,10 +46,10 @@
                             </div>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <select name="asistencias[]" class="border rounded px-2 py-1">
-                                <option value="A">Asistió</option>
-                                <option value="I">Inasistencia</option>
-                                <option value="J">Justificado</option>
+                            <select name="asistencias[]" class="form-control border rounded px-2 py-1zzzz">
+                                <option value="A" {{ $estudiante->asistenciaHoy() == 'A' ? 'selected' : '' }}>Asistió</option>
+                                <option value="I" {{ $estudiante->asistenciaHoy() == 'I' ? 'selected' : '' }}>Inasistencia</option>
+                                <option value="J" {{ $estudiante->asistenciaHoy() == 'J' ? 'selected' : '' }}>Justificado</option>
                             </select>
                             <input type="hidden" name="estudiantes[]" value="{{ $estudiante->codigo_estudiante }}">
                         </td>

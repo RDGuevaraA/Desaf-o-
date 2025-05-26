@@ -31,7 +31,7 @@ class AuthController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'Las credenciales proporcionadas no coinciden con nuestros registros.',
+            'email' => 'Las credenciales ingresadas son incorrectas.',
         ]);
     }
 

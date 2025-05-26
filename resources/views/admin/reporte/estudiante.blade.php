@@ -18,7 +18,7 @@
             width: 70px; 
             height: 70px; 
             border-radius: 50%; 
-            margin: 0 auto 20px;
+            margin: 0 0 20px 0;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -46,7 +46,8 @@
         <p><strong>Estudiante:</strong> {{ $estudiante->nombres }} {{ $estudiante->apellidos }}</p>
         <p><strong>Carnet:</strong> {{ $estudiante->codigo_estudiante }}</p>
     </div>
-     <div class="semaforo {{ $semaforo }}">
+    <p><strong>Semaforo:</strong></p>
+    <div class="semaforo {{ $semaforo }}">
         @switch($semaforo)
             @case('azul') @break
             @case('verde') @break
@@ -129,7 +130,7 @@
             @foreach($inasistencias as $index => $inasistencia)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $inasistencia->fecha->format('d/m/Y') }}</td>
+                <td>{{ \Carbon\Carbon::parse($inasistencia->fecha)->format('d/m/Y') }}</td>
                 <td>
                     @switch($inasistencia->tipo)
                         @case('A') Asistió @break

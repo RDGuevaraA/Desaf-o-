@@ -7,7 +7,7 @@
     <h2 class="text-2xl font-bold text-gray-800">Bienvenido, {{ Auth::user()->name }}</h2>
     <p class="text-gray-600">Gestión de cursos de la academia</p>
     <div class="flex justify-end items-center mb-4">
-        <a href="{{ route('admin.curso.create') }}" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 font-medium rounded transition duration-200">
+        <a href="{{ route('admin.curso.create') }}" class="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 font-medium rounded transition duration-200">
             Crear Nuevo Curso
         </a>
     </div>
@@ -44,7 +44,7 @@
                         Eliminar
                     </button>
                 </form>
-            <a href="{{ route('admin.reporte.estudiantes', $curso->id) }}" class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+            <a href="{{ route('admin.reporte.estudiantes', $curso->id) }}" class="bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded text-sm font-medium">
                     Reporte
                 </a>
             </div>
